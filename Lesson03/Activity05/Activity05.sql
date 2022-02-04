@@ -1,4 +1,6 @@
--- Use inner join to join the customer table to the sales table. Use inner join to join the product table to the sales table. Use left join to join dealership table to the sales table. Now, return all columns of the customers table and the product table. Then, return the dealership_id from the sales table, but fill in the dealership_id in sales with -1 if it is NULL
+-- Use inner join to join the customer table to the sales table. Use inner join to join the product table to the sales table.
+-- Use left join to join dealership table to the sales table. Now, return all columns of the customers table and the product table.
+-- Then, return the dealership_id from the sales table, but fill in the dealership_id in sales with -1 if it is NULL
 
 SELECT 
 c.*,
