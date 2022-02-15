@@ -225,10 +225,51 @@
 	from Customers c
 	left join Orders o 
 		on c.CustomerID = o.CustomerID
-	and o.EmployeeID = 4
+		and o.EmployeeID = 4
 	where o.CustomerID is null
 	order by c.CustomerID
 	;
 
+
+--second pass, fresh morning
+	select c.CustomerID, o.CustomerID
+	from Customers c
+	left join Orders o
+		on c.CustomerID = o.CustomerID
+		and EmployeeID = 4
+	Where o.EmployeeID is null
+	--order by 2 
+	;
+
+
 --32.
+	--customer list for VIP gift
+	--min 1 order
+	--min total value 10,000
+	--in year 2016
+
+	with SumOrderTotals AS (
+		select OrderID,
+			sum(UnitPrice * Quantity) as OrderTotal
+		from OrderDetails
+		group by OrderID
+		),
+
+		OrderCountTable AS (
+		select CustomerID, count(*) as OrderCount
+		from Orders
+		where OrderDate > '2015-12-31'
+			and OrderDate < '2017-01-01'
+		group by CustomerID
+		)
 	
+	select c.CustomerID, c.CompanyName, o.OrderID, ot.OrderTotal
+	from Customers c
+	join Orders o on c.CustomerID = o.CustomerID
+	join SumOrderTotals ot on c.CustomerID = o.CustomerID
+	join OrderCountTable oct on c.CustomerID = oct.CustomerID
+	where OrderCount >1
+	--having count(*) >1
+	and ot.OrderTotal > 10000
+	Group by 1,2,3
+	;
